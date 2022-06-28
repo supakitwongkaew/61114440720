@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "relax-app",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

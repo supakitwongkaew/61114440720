@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="" (click)=back()></ion-back-button>
+    </ion-buttons>
+    <ion-title>Favorite Sound</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh()">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-item-sliding *ngFor="let sound of listfav; let i = index">
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img src="{{sound.img}}" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{sound.title}}</h2>
+        <p>{{sound.subtitle}}</p>
+      </ion-label>
+
+    </ion-item>
+    <ion-item-options side="end" (ionSwipe)="delete(i)">
+      <ion-item-option color="danger" (click)="delete(i)" expandable>
+        <ion-icon name="close"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding *ngFor="let sound of listnew; let i = index">
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img src="{{sound.img}}" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{sound.title}}</h2>
+        <p>{{sound.subTitle}}</p>
+      </ion-label>
+
+    </ion-item>
+    <ion-item-options side="end" (ionSwipe)="del(i)">
+      <ion-item-option color="danger" (click)="del(i)" expandable>
+        <ion-icon name="close"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+</ion-content>

@@ -1,0 +1,208 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="text-align:center;">Relax Sound</ion-title>
+    <ion-title id="username">{{this.getuser}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<!-- (click)="this.editprofile() -->
+
+<ion-content>
+  <!-- <ion-refresher slot="fixed" (ionRefresh)="refresh()">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher> -->
+  <ion-fab horizontal="start" vertical="top" slot="fixed" edge >
+    <ion-fab-button color="light">
+      <img src={{getimg}}>
+    </ion-fab-button>
+    </ion-fab>
+    <ion-icon id="logout" name="log-out-outline" routerLink="/login"></ion-icon>
+  <ion-list-header>
+    <ion-label id="titles">Popular Songs</ion-label>
+
+
+  </ion-list-header>
+
+  <ion-slides [options]="opts">
+  <ion-slide lines="none" *ngFor="let sound of ox" (click)="playSong(sound.title,sound.subtitle,sound.img,sound.path)">
+
+      <img style="width: 150px; height: 150px;" src="{{sound.img}}"id="homeimg"/>
+
+    <ion-label>
+      <h2 id="title">{{sound.title}}</h2>
+      <!-- <p id="title">{{sound.subtitle}}</p> -->
+    </ion-label>
+  </ion-slide>
+</ion-slides>
+<!-- <ion-button (click)="settime()" color="transparent">
+  <ion-icon name="add-outline"> </ion-icon>
+</ion-button> -->
+<ion-icon name="alarm-outline" size="large" ></ion-icon>
+<ion-label>Set Time Bed</ion-label>
+<section>
+  <ion-datetime display-format="HH:mm " picker-format="HH:mm " [(ngModel)]="someString"></ion-datetime >
+<ion-button (click)=loop()>Confirm time</ion-button>
+<!-- <ion-icon name="alarm-outline" size="large" ></ion-icon>Set time to bed -->
+</section>
+<ion-label id="ntr">Nature and Animals</ion-label>
+  <ion-item lines="none" *ngFor="let song of songs " (click)="playSong(song.title,song.subtitle,song.img,song.path)">
+    <ion-thumbnail slot="start">
+      <img src="{{song.img}}" />
+    </ion-thumbnail>
+    <ion-label>
+      <h2>{{song.title}}</h2>
+      <p>{{song.subtitle}}</p>
+    </ion-label>
+    <ion-button (click)="addplaylist(song.title)" color="transparent">
+      <ion-icon name="add-outline"> </ion-icon>
+    </ion-button>
+  </ion-item>
+
+  <ion-label id="ntr">Relax</ion-label>
+  <ion-item lines="none" *ngFor="let mood of relax" (click)="playSong(mood.title,mood.subtitle,mood.img,mood.path)">
+    <ion-thumbnail slot="start">
+      <img src="{{mood.img}}"  />
+    </ion-thumbnail>
+    <ion-label>
+      <h2>{{mood.title}}</h2>
+      <p>{{mood.subtitle}}</p>
+    </ion-label>
+    <ion-button (click)="addplaylist(mood.title)" color="transparent">
+      <ion-icon name="add-outline"> </ion-icon></ion-button>
+  </ion-item>
+  <ion-label id="ntr">Music genre and Musical instrument</ion-label>
+  <ion-item lines="none" *ngFor="let musics of musical" (click)="playSong(musics.title,musics.subtitle,musics.img,musics.path)">
+    <ion-thumbnail slot="start">
+      <img src="{{musics.img}}"  />
+    </ion-thumbnail>
+    <ion-label>
+      <h2>{{musics.title}}</h2>
+      <p>{{musics.subtitle}}</p>
+    </ion-label>
+    <ion-button (click)="addplaylist(musics.title)" color="transparent">
+      <ion-icon name="add-outline"> </ion-icon></ion-button>
+  </ion-item>
+
+  <ion-label id="ntr">Other genres music</ion-label>
+
+<ion-item lines="none" *ngFor="let sounds of sound" (click)="playSong(sounds.title,sounds.subTitle,sounds.img,sounds.path)">
+
+  <ion-thumbnail slot="start">
+    <img src="{{sounds.img}}" />
+  </ion-thumbnail>
+  <ion-label>
+    <h2>{{sounds.title}}</h2>
+    <p>{{sounds.subTitle}}</p>
+  </ion-label>
+  <ion-button (click)="addsong(sounds.title)" color="transparent">
+    <ion-icon name="add-outline"> </ion-icon></ion-button>
+</ion-item>
+
+</ion-content>
+
+<div class="ion-text-center" id="fullPlayer">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="minimize()">
+         <ion-icon name="chevron-down-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <img src="{{currImage}}" alt="" id="currImg">
+
+  <h2>
+    {{currTitle}}
+  </h2>
+  <p>
+    {{currSubtitle}}
+  </p>
+  <ion-item lines="none">
+    <ion-range #range (touchmove)="touchMove()" (touchend)="touchEnd()" (touchstart)="touchStart()"
+      max="{{maxRangeValue}}" [(ngModel)]="currRangeTime">
+      <ion-label slot="start">
+        <ion-text>
+          <b>
+            {{currSecsText}}
+          </b>
+        </ion-text>
+      </ion-label>
+      <ion-label slot="end">
+        <ion-text>
+          <b>
+            {{durationText}}
+          </b>
+        </ion-text>
+      </ion-label>
+    </ion-range>
+  </ion-item>
+
+  <ion-icon (click)="custom(docId)" name="heart" size="large"></ion-icon>
+
+  <!-- Play Previous Button -->
+  <ion-button fill="clear" mode="ios" (click)="playPrev()">
+    <ion-icon name="play-skip-back-outline" style="font-size: 30px;"></ion-icon>
+  </ion-button>
+
+  <!-- Play Button -->
+  <ion-button fill="clear" mode="ios" *ngIf="!isPlaying" (click)="play()">
+    <ion-icon name="play" style="font-size: 40px;"></ion-icon>
+  </ion-button>
+
+  <!-- Pause Button -->
+  <ion-button fill="clear" mode="ios" *ngIf="isPlaying" (click)="pause()">
+    <ion-icon name="pause" style="font-size: 40px;"></ion-icon>
+  </ion-button>
+
+  <!-- Play Next Button -->
+  <ion-button fill="clear" mode="ios" (click)="playNext()">
+    <ion-icon name="play-skip-forward-outline" style="font-size: 30px;"></ion-icon>
+  </ion-button>
+
+  <ion-icon name="time" size="large" (click)="presentActionSheet()"></ion-icon>
+
+  <ion-list-header>
+    Up Next
+  </ion-list-header>
+  <!-- Up Next Song -->
+  <ion-item>
+    <ion-thumbnail slot="start">
+      <img src="{{upNextImg}}" />
+    </ion-thumbnail>
+    <ion-label>
+      <h2>
+        {{upNextTitle}}
+      </h2>
+      <p>
+        {{upNextSubtitle}}
+      </p>
+    </ion-label>
+  </ion-item>
+</div>
+
+<ion-toolbar id="miniPlayer">
+  <ion-item>
+    <ion-thumbnail slot="start" (click)="maximize()">
+      <img src="{{currImage}}" />
+    </ion-thumbnail>
+    <ion-label (click)="maximize()">
+      <h2>{{currTitle}}</h2>
+      <p>{{currSubtitle}}</p>
+    </ion-label>
+
+    <!-- Play Button -->
+    <ion-button (click)="play()" mode="ios" fill="clear" *ngIf="!isPlaying">
+      <ion-icon name="play" style="font-size: x-large;"></ion-icon>
+    </ion-button>
+    <!-- Pause Button -->
+    <ion-button (click)="pause()" mode="ios" fill="clear" *ngIf="isPlaying">
+      <ion-icon name="pause" style="font-size: x-large;"></ion-icon>
+    </ion-button>
+    <!-- Cancel Song Button -->
+    <ion-button (click)="cancel()" mode="ios" fill="clear">
+      <ion-icon name="close" style="font-size: x-large;"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+  <!-- Song Progress Bar -->
+  <ion-progress-bar value="{{progress}}"></ion-progress-bar>
+</ion-toolbar>
