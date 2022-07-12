@@ -70,7 +70,7 @@
     <ion-button (click)="addplaylist(mood.title)" color="transparent">
       <ion-icon name="add-outline"> </ion-icon></ion-button>
   </ion-item>
-  <ion-label id="ntr">Music genre and Musical instrument</ion-label>
+  <ion-label id="ntr">Music sound and Instrument sound</ion-label>
   <ion-item lines="none" *ngFor="let musics of musical" (click)="playSong(musics.title,musics.subtitle,musics.img,musics.path)">
     <ion-thumbnail slot="start">
       <img src="{{musics.img}}"  />
@@ -83,7 +83,7 @@
       <ion-icon name="add-outline"> </ion-icon></ion-button>
   </ion-item>
 
-  <ion-label id="ntr">Other genres music</ion-label>
+  <ion-label id="ntr">Sound music rhythm</ion-label>
 
 <ion-item lines="none" *ngFor="let sounds of sound" (click)="playSong(sounds.title,sounds.subTitle,sounds.img,sounds.path)">
 
